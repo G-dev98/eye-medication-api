@@ -15,10 +15,12 @@ public class MedicoDTO {
 	@Length(min = 5, max = 100, message = "Campo CRM precisa ter no máximo 100 caracteres")
 	private Integer crm;
 	private String nome;
+	private Integer id;
 
 	public MedicoDTO(
 			@Length(min = 0, max = 100, message = "Campo CRM precisa ter no máximo 100 caracteres") Medico medico) {
 		super();
+		this.id = medico.getId();
 		this.crm = medico.getCrm();
 		this.nome = medico.getNome();
 	}
@@ -26,6 +28,16 @@ public class MedicoDTO {
 	public MedicoDTO() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+
+	
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getNome() {
