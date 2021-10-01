@@ -24,6 +24,12 @@ public class MedicoService {
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"	Objeto não encontrado! ID:" + id + "Tipo  " + Medico.class.getName()));
 	}
+	
+	public List<Medico> findByNomeContaining(String nome) throws ObjectNotFoundException {
+		List<Medico> listMedico = repository.findByNomeContaining(nome);
+		
+		return listMedico;
+	}
 
 	public List<Medico> findAll() {
 		return repository.findAll();

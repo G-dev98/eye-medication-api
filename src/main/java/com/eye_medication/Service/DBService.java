@@ -23,8 +23,11 @@ public class DBService {
 				"Joana", "Feminino");
 		med2.setCrm(987654);
 
+		Medico med3 = new Medico(null, "Babi", "000.000.000-00", "11111111", "Rua Belem", "05/03/1998", "GO",
+				"Juvenesci", "Feminino");
+		med3.setCrm(34567);
 		
-		medicoRepository.saveAll(Arrays.asList(med1, med2));
+		medicoRepository.saveAll(Arrays.asList(med1, med2,med3));
 	}
 
 }
