@@ -1,16 +1,12 @@
 package com.eye_medication.repositories;
 
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.eye_medication.Service.NativeScriptService;
 import com.eye_medication.domain.Medico;
 
 @Repository

@@ -41,7 +41,7 @@ public class MedicoResource {
 	
 
 	@GetMapping(value = "/filter")
-	public ResponseEntity<List<MedicoDTO>> findById(@RequestParam("nome") String nome) throws ObjectNotFoundException {
+	public ResponseEntity<List<MedicoDTO>> findByNomeContaining(@RequestParam("nome") String nome) throws ObjectNotFoundException {
 		List<Medico> listMedico = service.findByNomeContaining(nome);
 		List<MedicoDTO> listDTO = listMedico.stream().map(obj -> new MedicoDTO(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDTO);
