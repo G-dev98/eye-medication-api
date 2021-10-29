@@ -14,7 +14,7 @@ public class DBService {
 	@Autowired
 	MedicoRepository medicoRepository;
 
-	public void instanciaBaseDados() {
+	public void instanciaBaseDados(){
 		Medico med1 = new Medico(null, "Lourival", "000.000.000-00", "11111111", "Rua Belem", "05/03/1998", "GO",
 				"Juvenesci", "Masculino");
 		med1.setCrm(123456);
@@ -28,6 +28,9 @@ public class DBService {
 		med3.setCrm(34567);
 		
 		medicoRepository.saveAll(Arrays.asList(med1, med2,med3));
+		
+		
+		
 	}
 
 }
