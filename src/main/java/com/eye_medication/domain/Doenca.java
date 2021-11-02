@@ -1,17 +1,14 @@
 package com.eye_medication.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 
-
-@Entity(name="Doenca")
+@Entity(name = "Doenca")
 public class Doenca implements Serializable {
 
 	/**
@@ -23,16 +20,15 @@ public class Doenca implements Serializable {
 	private Long id;
 	private String nome;
 	private String descrição;
-	
-	@OneToMany(mappedBy ="doenca")
-	private List<Paciente> pacientes = new ArrayList<>();
+
+	@ManyToOne
+	private Paciente pacientes;
 
 	public Doenca() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	
 	public Doenca(Long id, String nome, String descrição) {
 		super();
 		this.id = id;
@@ -40,46 +36,37 @@ public class Doenca implements Serializable {
 		this.descrição = descrição;
 	}
 
-
 	public Long getId() {
 		return id;
 	}
-
 
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-
 	public String getNome() {
 		return nome;
 	}
-
 
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
-
 	public String getDescrição() {
 		return descrição;
 	}
-
 
 	public void setDescrição(String descrição) {
 		this.descrição = descrição;
 	}
 
-
-	public List<Paciente> getPacientes() {
+	public Paciente getPacientes() {
 		return pacientes;
 	}
 
-
-	public void setPacientes(List<Paciente> pacientes) {
+	public void setPacientes(Paciente pacientes) {
 		this.pacientes = pacientes;
 	}
-
 
 	@Override
 	public int hashCode() {
@@ -88,7 +75,6 @@ public class Doenca implements Serializable {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -106,7 +92,5 @@ public class Doenca implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
-	
+
 }

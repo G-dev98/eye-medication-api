@@ -8,8 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @SuppressWarnings("serial")
@@ -30,9 +28,9 @@ public class Paciente implements Serializable {
 	private String sexo;
 	private String status;
 
-	@ManyToOne
-	@JoinColumn(name="doenca_id")
-	private Doenca doenca;
+	@OneToMany(mappedBy="pacientes")
+	//@JoinColumn(name="doenca_id")
+	private List <Doenca> doenca = new ArrayList<>();
 	
 	@OneToMany(mappedBy="pacientes")
 	private List<PacienteUM> pUM = new ArrayList<>();
@@ -44,9 +42,8 @@ public class Paciente implements Serializable {
 	}
 
 	
-
 	public Paciente(Integer id, String nome, String cpf, String telefone, String endereco, String dataNascimento,
-			String naturalidade, String nomeMae, String sexo, String status, Doenca doenca) {
+			String naturalidade, String nomeMae, String sexo, String status) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -58,11 +55,15 @@ public class Paciente implements Serializable {
 		this.nomeMae = nomeMae;
 		this.sexo = sexo;
 		this.status = status;
-		this.doenca = doenca;
+		
 	}
 
-	
-	
+
+
+
+
+
+
 	public List<PacienteUM> getpUM() {
 		return pUM;
 	}
@@ -155,13 +156,21 @@ public class Paciente implements Serializable {
 		this.status = status;
 	}
 
-	public Doenca getDoenca() {
+
+	
+
+
+	public List<Doenca> getDoenca() {
 		return doenca;
 	}
 
-	public void setDoenca(Doenca doenca) {
+
+
+	public void setDoenca(List<Doenca> doenca) {
 		this.doenca = doenca;
 	}
+
+
 
 	@Override
 	public int hashCode() {
