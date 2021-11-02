@@ -1,11 +1,14 @@
 package com.eye_medication.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @SuppressWarnings("serial")
 @Entity(name="UnidadeMedica")
@@ -20,9 +23,10 @@ public class UnidadeMedica implements Serializable {
 	private Integer nCama;
 	
 	private Paciente paciente;
+	
+	@OneToMany(mappedBy="unidadeMedicas")
+	private List<PacienteUM> pUM = new ArrayList<>();
 
-	
-	
 	
 	public UnidadeMedica() {
 		super();
@@ -39,8 +43,18 @@ public class UnidadeMedica implements Serializable {
 		this.nCama = nCama;
 		this.paciente = paciente;
 	}
-	
-	
+
+
+
+	public List<PacienteUM> getpUM() {
+		return pUM;
+	}
+
+
+	public void setpUM(List<PacienteUM> pUM) {
+		this.pUM = pUM;
+	}
+
 
 	public Paciente getPaciente() {
 		return paciente;

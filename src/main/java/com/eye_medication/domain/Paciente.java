@@ -1,6 +1,8 @@
 package com.eye_medication.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @SuppressWarnings("serial")
 @Entity(name="Paciente")
@@ -30,11 +33,17 @@ public class Paciente implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="doenca_id")
 	private Doenca doenca;
+	
+	@OneToMany(mappedBy="pacientes")
+	private List<PacienteUM> pUM = new ArrayList<>();
+
 
 	public Paciente() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+
+	
 
 	public Paciente(Integer id, String nome, String cpf, String telefone, String endereco, String dataNascimento,
 			String naturalidade, String nomeMae, String sexo, String status, Doenca doenca) {
@@ -51,6 +60,20 @@ public class Paciente implements Serializable {
 		this.status = status;
 		this.doenca = doenca;
 	}
+
+	
+	
+	public List<PacienteUM> getpUM() {
+		return pUM;
+	}
+
+
+
+	public void setpUM(List<PacienteUM> pUM) {
+		this.pUM = pUM;
+	}
+
+
 
 	public Integer getId() {
 		return id;
