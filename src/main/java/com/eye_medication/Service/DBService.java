@@ -41,8 +41,9 @@ public class DBService {
 		
 		Doenca doe1 = new Doenca(null,"Rinite alergica","Alergia a poeira");
 		Doenca doe2 = new Doenca(null,"Gripe","Reação de febre,nariz escorrendo,espirros");
+		Doenca doe3 = new Doenca(null,"Alergia a dipirona","Reação alergica ao medicamento");
 		
-		doencaRepository.saveAll(Arrays.asList(doe1,doe2));
+		doencaRepository.saveAll(Arrays.asList(doe1,doe2,doe3));
 		
 		Paciente pac1 = new Paciente(null, "Lourival", "000.000.000-00", "11111111", "Rua Belem", "05/03/1998", "GO",
 				"Juvenesci", "Masculino", "internado");
