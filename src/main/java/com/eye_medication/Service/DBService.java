@@ -47,9 +47,13 @@ public class DBService {
 		
 		Paciente pac1 = new Paciente(null, "Lourival", "000.000.000-00", "11111111", "Rua Belem", "05/03/1998", "GO",
 				"Juvenesci", "Masculino", "internado");
-		pac1.setDoenca(Arrays.asList(doe1,doe2));
+		Paciente pac2 = new Paciente(null, "Mariana", "000.000.000-00", "222222222", "Rua Belem", "15/11/1987", "GO",
+				"Juvenesci", "Feminino", "internado");
 		
-		pacienteRepository.saveAll(Arrays.asList(pac1));
+		pac1.setDoenca(Arrays.asList(doe1,doe2,doe3));
+		pac2.setDoenca(Arrays.asList(doe1));
+		
+		pacienteRepository.saveAll(Arrays.asList(pac1,pac2));
 	}
 
 }
