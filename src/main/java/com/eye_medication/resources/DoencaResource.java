@@ -45,7 +45,7 @@ public class DoencaResource {
 	}
 	
 	
-	@GetMapping(value= "/dp")
+	@GetMapping(value= "/doenca")
 	public ResponseEntity<List<Doenca>> findByAllPaciente(@RequestParam(value = "paciente", defaultValue = "0" )Integer id_pac) throws ObjectNotFoundException{
 		//localhost:8080/doencas?paciente= 1 
 		List<Doenca> list = service.findByPaciente(id_pac);
