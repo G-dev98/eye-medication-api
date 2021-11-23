@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -31,16 +32,24 @@ public class DoencaResource {
 	private DoencaService service;
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Doenca> findById(@PathVariable Long id) throws ObjectNotFoundException {
+	public ResponseEntity<Doenca> findById(@PathVariable Integer id) throws ObjectNotFoundException {
 		Doenca obj = service.findById(id);
 		return ResponseEntity.ok(obj);
 	}
-
+	
 	@GetMapping
 	public ResponseEntity<List<Doenca>> findAll() {
 		List<Doenca> list = service.findAll();
 
 		return ResponseEntity.ok().body(list);
+	}
+	
+	
+	@GetMapping(value= "/dp")
+	public ResponseEntity<List<Doenca>> findByAllPaciente(@RequestParam(value = "paciente", defaultValue = "0" )Integer id_pac) throws ObjectNotFoundException{
+		//localhost:8080/doencas?paciente= 1 
+		List<Doenca> list = service.findByPaciente(id_pac);
+		return ResponseEntity.ok().body(list); 
 	}
 
 	@PostMapping
@@ -51,7 +60,7 @@ public class DoencaResource {
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Doenca> update(@PathVariable Long id, @Valid @RequestBody Doenca objDto)
+	public ResponseEntity<Doenca> update(@PathVariable Integer id, @Valid @RequestBody Doenca objDto)
 			throws ObjectNotFoundException {
 
 		/*

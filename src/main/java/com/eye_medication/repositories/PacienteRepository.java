@@ -7,5 +7,7 @@ import com.eye_medication.domain.Paciente;
 
 @Repository
 public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
+	
+
 
 }

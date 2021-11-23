@@ -1,12 +1,20 @@
 package com.eye_medication.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.UniqueConstraint;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity(name = "Doenca")
 public class Doenca implements Serializable {
@@ -17,30 +25,37 @@ public class Doenca implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private Integer id;
 	private String nome;
-	private String descrição;
+	private  String descrição;
 
-	@ManyToOne
-	private Paciente pacientes;
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable(
+		name = "Doenca_Paciente",
+		uniqueConstraints  = @UniqueConstraint(columnNames = {"codigo_paciente",  "id_doenca"}),
+		joinColumns        = @JoinColumn(name = "id_doenca"),
+		inverseJoinColumns = @JoinColumn(name = "codigo_paciente")
+	)
+	private List<Paciente> pacientes;
 
 	public Doenca() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Doenca(Long id, String nome, String descrição) {
+	public Doenca(Integer id, String nome, String descrição) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.descrição = descrição;
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -60,11 +75,13 @@ public class Doenca implements Serializable {
 		this.descrição = descrição;
 	}
 
-	public Paciente getPacientes() {
+	
+
+	public List<Paciente> getPacientes() {
 		return pacientes;
 	}
 
-	public void setPacientes(Paciente pacientes) {
+	public void setPacientes(List<Paciente> pacientes) {
 		this.pacientes = pacientes;
 	}
 

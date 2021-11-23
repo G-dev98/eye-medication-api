@@ -47,7 +47,7 @@ public class PacienteService {
 		obj.setNomeMae(objDto.getNomeMae());
 		obj.setSexo(objDto.getSexo());
 		obj.setStatus(objDto.getStatus());
-		obj.setDoenca(objDto.getDoenca());
+		obj.setDoencas(objDto.getDoencas());
 		
 		return repository.save(obj);
 

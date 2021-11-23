@@ -19,7 +19,10 @@ public class DoencaService {
 	@Autowired
 	private DoencaRepository repository;
 	
-	public Doenca findById(Long id) throws ObjectNotFoundException {
+	@Autowired
+	private PacienteService pacienteService;
+	
+	public Doenca findById(Integer id) throws ObjectNotFoundException {
 		Optional<Doenca> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"	Objeto não encontrado! ID:" + id + "Tipo  " + Paciente.class.getName()));
@@ -29,6 +32,8 @@ public class DoencaService {
 		return repository.findAll();
 	}
 	
+	
+	
 	public Doenca create(Doenca obj) {
 		obj.setId(null);
 		return repository.save(obj);
@@ -36,7 +41,7 @@ public class DoencaService {
 	
 
 	
-	public Doenca update(Long id, Doenca objDto) throws ObjectNotFoundException {
+	public Doenca update(Integer id, Doenca objDto) throws ObjectNotFoundException {
 		
 		Doenca obj = findById(id);
 		
@@ -47,7 +52,7 @@ public class DoencaService {
 
 	}
 	
-	public void delete(Long id) throws ObjectNotFoundException {
+	public void delete(Integer id) throws ObjectNotFoundException {
 
 		findById(id);
 		try {
@@ -56,6 +61,14 @@ public class DoencaService {
 			throw new com.eye_medication.Service.exceptions.DataIntegrityViolationExcepiton(
 					"Objeto não pode ser deleta!  Possui objetos associado a ele");
 		}
+	}
+
+	public List<Doenca> findByPaciente(Integer id_pac) throws ObjectNotFoundException {
+		//List<Doenca> listDoencaPc = repository.findByDoencaPaciente(id_pac);
+		pacienteService.findById(id_pac);
+		//List<Medico> listMedico = repository.findByNomeContaining(nome);
+		return repository.findByDoencaPaciente(id_pac);
+	
 	}
 	
 	
