@@ -31,6 +31,9 @@ public class UnidadeMedica implements Serializable {
 	@JsonIgnore
 	private PacienteUM pUM ;
 
+	@OneToMany(mappedBy="UM")
+	private List<TipoDeMovimentacao> movimentacaoUM;
+	
 	
 	public UnidadeMedica() {
 		super();
@@ -48,6 +51,7 @@ public class UnidadeMedica implements Serializable {
 
 
 
+	
 	/*public List<PacienteUM> getpUM() {
 		return pUM;
 	}
@@ -68,10 +72,23 @@ public class UnidadeMedica implements Serializable {
 	}*/
 
 
+	
+
+
 	public Integer getnCama() {
 		return nCama;
 	}
 
+
+
+	public List<TipoDeMovimentacao> getMovimentacaoUM() {
+		return movimentacaoUM;
+	}
+
+
+	public void setMovimentacaoUM(List<TipoDeMovimentacao> movimentacaoUM) {
+		this.movimentacaoUM = movimentacaoUM;
+	}
 
 
 	public PacienteUM getpUM() {

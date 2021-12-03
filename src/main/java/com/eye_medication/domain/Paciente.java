@@ -39,21 +39,18 @@ public class Paciente implements Serializable {
 	private String sexo;
 	private String status;
 
-	// @OneToMany(mappedBy="pacientes")
-
-	// private List <Doenca> doenca = new ArrayList<>();
 
 	@ManyToMany
-	// @JoinColumn(name="doenca_id")
 	@JoinTable(name = "Doenca_Paciente", uniqueConstraints = @UniqueConstraint(columnNames = { "codigo_paciente",
 			"id_doenca" }), joinColumns = @JoinColumn(name = "codigo_paciente"), inverseJoinColumns = @JoinColumn(name = "id_doenca"))
 	private List<Doenca> doencas = new ArrayList<>();
 	
-	//@OneToMany(mappedBy = "paciente")
-
 	@JsonIgnore
 	@OneToOne
 	private PacienteUM pUM ;
+	
+	@OneToMany(mappedBy = "paciente")
+	private List<TipoDeMovimentacao> entradaPacienteUM;
 
 	public Paciente() {
 		super();
@@ -75,6 +72,8 @@ public class Paciente implements Serializable {
 		this.status = status;
 
 	}
+	
+	
 
 	/*public List<PacienteUM> getpUM() {
 		return pUM;
@@ -83,6 +82,14 @@ public class Paciente implements Serializable {
 	public void setpUM(List<PacienteUM> pUM) {
 		this.pUM = pUM;
 	}*/
+
+	public List<TipoDeMovimentacao> getEntradaPacienteUM() {
+		return entradaPacienteUM;
+	}
+
+	public void setEntradaPacienteUM(List<TipoDeMovimentacao> entradaPacienteUM) {
+		this.entradaPacienteUM = entradaPacienteUM;
+	}
 
 	public Integer getId() {
 		return id;

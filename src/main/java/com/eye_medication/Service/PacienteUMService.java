@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import com.eye_medication.domain.TipoDeMovimentacao;
 import com.eye_medication.domain.PacienteUM;
 import com.eye_medication.repositories.PacienteUMRepository;
+import com.eye_medication.resources.TipoDeMovimentacaoResource;
 
 import javassist.tools.rmi.ObjectNotFoundException;
 
@@ -19,6 +21,9 @@ public class PacienteUMService {
 	
 	@Autowired
 	private PacienteUMRepository repository;
+	
+	@Autowired
+	private TipoDeMovimentacaoResource tipoDeMovimentacaoResource;
 	
 	
 	
@@ -37,6 +42,9 @@ public class PacienteUMService {
 		if(findByDisponibilidade(obj) != null) {
 			throw new DataIntegrityViolationException("Leito selecionado já está ocupado");
 		}
+			TipoDeMovimentacao entrada = new TipoDeMovimentacao(null,obj.getDataMovimentacao(),null,obj.getPaciente(),obj.getUnidadeMedica());
+			tipoDeMovimentacaoResource.create(entrada);
+			
 			Calendar c = Calendar.getInstance();
 			
 			obj.setDataMovimentacao(c.getTime());
@@ -68,9 +76,13 @@ public class PacienteUMService {
 	
 	public void delete(Long id) throws ObjectNotFoundException {
 	
-		findById(id);
 		try {
+			
+			PacienteUM obj = findById(id);
+			TipoDeMovimentacao saida = new TipoDeMovimentacao(null,obj.getDataMovimentacao(),null,obj.getPaciente(),obj.getUnidadeMedica());
+			tipoDeMovimentacaoResource.createSaida(saida);
 			repository.deleteById(id);
+			
 		} catch (DataIntegrityViolationException e) {
 			throw new com.eye_medication.Service.exceptions.DataIntegrityViolationExcepiton(
 					"Objeto não pode ser deletado!  Possui objetos associados a ele");

@@ -8,11 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.eye_medication.domain.Doenca;
+import com.eye_medication.domain.TipoDeMovimentacao;
 import com.eye_medication.domain.Medico;
 import com.eye_medication.domain.Paciente;
 import com.eye_medication.domain.PacienteUM;
 import com.eye_medication.domain.UnidadeMedica;
 import com.eye_medication.repositories.DoencaRepository;
+import com.eye_medication.repositories.TipoDeMovimentacaoRepository;
 import com.eye_medication.repositories.MedicoRepository;
 import com.eye_medication.repositories.PacienteRepository;
 import com.eye_medication.repositories.PacienteUMRepository;
@@ -35,6 +37,9 @@ public class DBService {
 	
 	@Autowired
 	PacienteUMRepository pcUMRepository;
+	
+	@Autowired
+	TipoDeMovimentacaoRepository entradaRepository;
 
 	public void instanciaBaseDados() throws ParseException{
 		Medico med1 = new Medico(null, "Lourival", "000.000.000-00", "11111111", "Rua Belem", "05/03/1998", "GO",
@@ -83,7 +88,8 @@ public class DBService {
 		pcUMRepository.save(pac_um1);
 		//pcUMRepository.save(pac_um2);
 		
-		
+		//EntradaPacienteUM entrada1 = new EntradaPacienteUM(null,new SimpleDateFormat("dd/MM/yyyy").parse("09/06/2021"),pac1,um1);
+		//entradaRepository.save(entrada1);
 	}
 
 }

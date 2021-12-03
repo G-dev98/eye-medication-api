@@ -60,7 +60,7 @@ public class PacienteUMResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
-	@DeleteMapping(value = "/{id}")
+	@DeleteMapping//(value = "/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Long id) throws ObjectNotFoundException {
 
 		service.delete(id);
