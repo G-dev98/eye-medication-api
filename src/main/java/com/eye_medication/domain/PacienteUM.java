@@ -9,7 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -29,15 +29,18 @@ public class PacienteUM implements Serializable{
 	private Date dataMovimentacao;
 	
 	
-	@ManyToOne
+	
+	//@ManyToOne
+	@OneToOne
 	@JoinColumn(name="paciente_id")
-	private Paciente pacientes;
+	private Paciente paciente;
 	
 	
 	
-	@ManyToOne
+	//@ManyToOne
+	@OneToOne
 	@JoinColumn(name="UM_id")
-	private UnidadeMedica unidadeMedicas;
+	private UnidadeMedica unidadeMedica;
 	
 
 	
@@ -47,12 +50,12 @@ public class PacienteUM implements Serializable{
 		// TODO Auto-generated constructor stub
 	}
 
-	public PacienteUM(Long id, Date dataMovimentacao, Paciente pacientes, UnidadeMedica unidadeMedicas) {
+	public PacienteUM(Long id, Date dataMovimentacao, Paciente paciente, UnidadeMedica unidadeMedica) {
 		super();
 		this.id = id;
 		this.dataMovimentacao = dataMovimentacao;
-		this.pacientes = pacientes;
-		this.unidadeMedicas = unidadeMedicas;
+		this.paciente = paciente;
+		this.unidadeMedica = unidadeMedica;
 	}
 	
 	
@@ -72,20 +75,20 @@ public class PacienteUM implements Serializable{
 		this.dataMovimentacao = dataMovimentacao;
 	}
 
-	public Paciente getPacientes() {
-		return pacientes;
+	public Paciente getPaciente() {
+		return paciente;
 	}
 
-	public void setPacientes(Paciente pacientes) {
-		this.pacientes = pacientes;
+	public void setPaciente(Paciente pacientes) {
+		this.paciente = pacientes;
 	}
 
-	public UnidadeMedica getUnidadeMedicas() {
-		return unidadeMedicas;
+	public UnidadeMedica getUnidadeMedica() {
+		return unidadeMedica;
 	}
 
-	public void setUnidadeMedicas(UnidadeMedica unidadeMedicas) {
-		this.unidadeMedicas = unidadeMedicas;
+	public void setUnidadeMedica(UnidadeMedica unidadeMedicas) {
+		this.unidadeMedica = unidadeMedicas;
 	}
 
 	@Override

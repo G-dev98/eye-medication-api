@@ -45,13 +45,13 @@ public class DoencaResource {
 	}
 	
 	
-	@GetMapping(value= "/doenca")
+	@GetMapping(value= "/dp")
 	public ResponseEntity<List<Doenca>> findByAllPaciente(@RequestParam(value = "paciente", defaultValue = "0" )Integer id_pac) throws ObjectNotFoundException{
 		//localhost:8080/doencas?paciente= 1 
 		List<Doenca> list = service.findByPaciente(id_pac);
 		return ResponseEntity.ok().body(list); 
 	}
-
+	
 	@PostMapping
 	public ResponseEntity<Doenca> create(@RequestBody Doenca obj) {
 		obj = service.create(obj);
@@ -70,5 +70,7 @@ public class DoencaResource {
 		Doenca newObj = service.update(id, objDto);
 		return ResponseEntity.ok().body(newObj);
 	}
+	
+	
 
 }

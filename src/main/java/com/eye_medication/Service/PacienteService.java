@@ -3,6 +3,8 @@ package com.eye_medication.Service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,7 @@ public class PacienteService {
 
 	@Autowired
 	private PacienteRepository repository;
+	
 	
 	public Paciente findById(Integer id) throws ObjectNotFoundException {
 		Optional<Paciente> obj = repository.findById(id);
@@ -63,5 +66,19 @@ public class PacienteService {
 					"Objeto não pode ser deleta!  Possui objetos associado a ele");
 		}
 	}
+
+	@Transactional
+	public void desatrelarDoenca(Integer id, Integer id2) throws ObjectNotFoundException {
+		repository.desatrelarDoenca(id,id2);	
+	}
+
+	@Transactional
+	public void atribuirDoenca(Integer id, Integer id_doe) throws ObjectNotFoundException {
+			repository.atribuirDoenca(id,id_doe);
+		
+	}
+	
+
+	
 	
 }

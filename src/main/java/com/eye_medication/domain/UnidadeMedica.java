@@ -9,6 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @SuppressWarnings("serial")
 @Entity(name="UnidadeMedica")
@@ -19,13 +22,14 @@ public class UnidadeMedica implements Serializable {
 	private Long id;
 	private String tipo;
 	private Integer nQuarto;
-	private String status;
+	//private String status;
 	private Integer nCama;
 	
-	private Paciente paciente;
+	//private Paciente paciente;
 	
-	@OneToMany(mappedBy="unidadeMedicas")
-	private List<PacienteUM> pUM = new ArrayList<>();
+	@OneToOne(mappedBy="unidadeMedica")
+	@JsonIgnore
+	private PacienteUM pUM ;
 
 	
 	public UnidadeMedica() {
@@ -34,42 +38,50 @@ public class UnidadeMedica implements Serializable {
 	}
 
 
-	public UnidadeMedica(Long id, String tipo, Integer nQuarto, String status, Integer nCama, Paciente paciente) {
+	public UnidadeMedica(Long id, String tipo, Integer nQuarto, Integer nCama) {
 		super();
 		this.id = id;
 		this.tipo = tipo;
 		this.nQuarto = nQuarto;
-		this.status = status;
 		this.nCama = nCama;
-		this.paciente = paciente;
 	}
 
 
 
-	public List<PacienteUM> getpUM() {
+	/*public List<PacienteUM> getpUM() {
 		return pUM;
 	}
 
 
 	public void setpUM(List<PacienteUM> pUM) {
 		this.pUM = pUM;
-	}
+	}*/
 
 
-	public Paciente getPaciente() {
+	/*public Paciente getPaciente() {
 		return paciente;
 	}
 
 
 	public void setPaciente(Paciente paciente) {
 		this.paciente = paciente;
-	}
+	}*/
 
 
 	public Integer getnCama() {
 		return nCama;
 	}
 
+
+
+	public PacienteUM getpUM() {
+		return pUM;
+	}
+
+
+	public void setpUM(PacienteUM pUM) {
+		this.pUM = pUM;
+	}
 
 
 	public void setnCama(Integer nCama) {
@@ -103,7 +115,7 @@ public class UnidadeMedica implements Serializable {
 	}
 
 	
-	public String getStatus() {
+	/*public String getStatus() {
 		return status;
 	}
 
@@ -114,7 +126,7 @@ public class UnidadeMedica implements Serializable {
 		}else {
 			this.status = "Livre";
 		}	
-	}
+	}*/
 
 	@Override
 	public int hashCode() {

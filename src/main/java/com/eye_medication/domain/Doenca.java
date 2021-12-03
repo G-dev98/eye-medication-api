@@ -10,8 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -27,16 +25,12 @@ public class Doenca implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	private String nome;
-	private  String descrição;
+	private String descrição;
 
 	@JsonIgnore
 	@ManyToMany
-	@JoinTable(
-		name = "Doenca_Paciente",
-		uniqueConstraints  = @UniqueConstraint(columnNames = {"codigo_paciente",  "id_doenca"}),
-		joinColumns        = @JoinColumn(name = "id_doenca"),
-		inverseJoinColumns = @JoinColumn(name = "codigo_paciente")
-	)
+	@JoinTable(name = "Doenca_Paciente", uniqueConstraints = @UniqueConstraint(columnNames = { "codigo_paciente",
+			"id_doenca" }), joinColumns = @JoinColumn(name = "id_doenca"), inverseJoinColumns = @JoinColumn(name = "codigo_paciente"))
 	private List<Paciente> pacientes;
 
 	public Doenca() {
@@ -74,8 +68,6 @@ public class Doenca implements Serializable {
 	public void setDescrição(String descrição) {
 		this.descrição = descrição;
 	}
-
-	
 
 	public List<Paciente> getPacientes() {
 		return pacientes;

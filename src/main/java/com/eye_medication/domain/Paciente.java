@@ -13,12 +13,15 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.UniqueConstraint;
+
+import org.hibernate.validator.constraints.br.CPF;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @SuppressWarnings("serial")
-@Entity(name="Paciente")
+@Entity(name = "Paciente")
 public class Paciente implements Serializable {
 
 	@Id
@@ -26,6 +29,7 @@ public class Paciente implements Serializable {
 
 	private Integer id;
 	private String nome;
+	
 	private String cpf;
 	private String telefone;
 	private String endereco;
@@ -35,31 +39,27 @@ public class Paciente implements Serializable {
 	private String sexo;
 	private String status;
 
-	/*@OneToMany(mappedBy="pacientes")
-	//
-	private List <Doenca> doenca = new ArrayList<>();*/
-	
+	// @OneToMany(mappedBy="pacientes")
+
+	// private List <Doenca> doenca = new ArrayList<>();
+
 	@ManyToMany
-	//@JoinColumn(name="doenca_id")
-	@JoinTable(
-		name = "Doenca_Paciente",
-		uniqueConstraints  = @UniqueConstraint(columnNames = {"codigo_paciente",  "id_doenca"}),
-		joinColumns        = @JoinColumn(name = "codigo_paciente"),
-		inverseJoinColumns = @JoinColumn(name = "id_doenca")
-	)
+	// @JoinColumn(name="doenca_id")
+	@JoinTable(name = "Doenca_Paciente", uniqueConstraints = @UniqueConstraint(columnNames = { "codigo_paciente",
+			"id_doenca" }), joinColumns = @JoinColumn(name = "codigo_paciente"), inverseJoinColumns = @JoinColumn(name = "id_doenca"))
 	private List<Doenca> doencas = new ArrayList<>();
 	
-	
-	@OneToMany(mappedBy="pacientes")
-	private List<PacienteUM> pUM = new ArrayList<>();
+	//@OneToMany(mappedBy = "paciente")
 
+	@JsonIgnore
+	@OneToOne
+	private PacienteUM pUM ;
 
 	public Paciente() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	
 	public Paciente(Integer id, String nome, String cpf, String telefone, String endereco, String dataNascimento,
 			String naturalidade, String nomeMae, String sexo, String status) {
 		super();
@@ -73,24 +73,29 @@ public class Paciente implements Serializable {
 		this.nomeMae = nomeMae;
 		this.sexo = sexo;
 		this.status = status;
-		
+
 	}
 
-
-	public List<PacienteUM> getpUM() {
+	/*public List<PacienteUM> getpUM() {
 		return pUM;
 	}
 
-
-
 	public void setpUM(List<PacienteUM> pUM) {
 		this.pUM = pUM;
+	}*/
+
+	public Integer getId() {
+		return id;
 	}
 
 
 
-	public Integer getId() {
-		return id;
+	public PacienteUM getpUM() {
+		return pUM;
+	}
+
+	public void setpUM(PacienteUM pUM) {
+		this.pUM = pUM;
 	}
 
 	public void setId(Integer id) {
@@ -169,16 +174,13 @@ public class Paciente implements Serializable {
 		this.status = status;
 	}
 
-
 	public List<Doenca> getDoencas() {
 		return doencas;
 	}
 
-
 	public void setDoencas(List<Doenca> doencas) {
 		this.doencas = doencas;
 	}
-
 
 	@Override
 	public int hashCode() {
