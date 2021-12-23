@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import com.eye_medication.domain.TipoDeMovimentacao;
+import com.eye_medication.domain.Movimentacao;
 import com.eye_medication.domain.PacienteUM;
 import com.eye_medication.repositories.PacienteUMRepository;
-import com.eye_medication.resources.TipoDeMovimentacaoResource;
+import com.eye_medication.resources.MovimentacaoResource;
+import com.eye_medication.resources.PacienteResource;
+import com.eye_medication.resources.UnidadeMedicaResource;
 
 import javassist.tools.rmi.ObjectNotFoundException;
 
@@ -23,7 +25,13 @@ public class PacienteUMService {
 	private PacienteUMRepository repository;
 	
 	@Autowired
-	private TipoDeMovimentacaoResource tipoDeMovimentacaoResource;
+	private MovimentacaoResource tipoDeMovimentacaoResource;
+	
+	@Autowired
+	private UnidadeMedicaResource umResource;
+	
+	@Autowired
+	private PacienteResource pacienteResource;
 	
 	
 	
@@ -37,24 +45,55 @@ public class PacienteUMService {
 		return repository.findAll();
 	}
 	
-	public PacienteUM create(PacienteUM obj) {
+	public PacienteUM create(PacienteUM obj) throws ObjectNotFoundException {
 		
-		if(findByDisponibilidade(obj) != null) {
+		//PacienteUM obj2 = obj;
+		if(findByDisponibilidade(obj) != null ) {
+			
 			throw new DataIntegrityViolationException("Leito selecionado já está ocupado");
 		}
-			TipoDeMovimentacao entrada = new TipoDeMovimentacao(null,obj.getDataMovimentacao(),null,obj.getPaciente(),obj.getUnidadeMedica());
+		if (findByPacienteUM(obj) != null) {
+			throw new DataIntegrityViolationException("Paciente selecionado já está em alguam Unidade Medica");
+		}
+		
+			
+			Movimentacao entrada = new Movimentacao(null,obj.getDataMovimentacao(),null,obj.getPaciente(),obj.getUnidadeMedica(),null);
 			tipoDeMovimentacaoResource.create(entrada);
+			
+			
+			obj.getUnidadeMedica().setStatus("Ocupado");
+			
+			obj.getPaciente().setStatus("Internado");
+			
+			
+			pacienteResource.updatePatch(obj.getPaciente().getId(),obj.getPaciente());
+			umResource.update(obj.getUnidadeMedica().getId(),obj.getUnidadeMedica());
 			
 			Calendar c = Calendar.getInstance();
 			
+			
 			obj.setDataMovimentacao(c.getTime());
-			return repository.save(new PacienteUM(null,obj.getDataMovimentacao(),obj.getPaciente(),obj.getUnidadeMedica()));
+			
+			
+			
+			
+			return repository.save(new PacienteUM(null,c.getTime(),obj.getPaciente(),obj.getUnidadeMedica()));
 	}
 	
 	
 	private PacienteUM findByDisponibilidade(PacienteUM disponibilidade) {
 		
 		PacienteUM obj = repository.findByDisponibilidade(disponibilidade.getUnidadeMedica().getId());
+		
+		if(obj != null) {
+			return obj;
+		}else {
+			return null;
+		}
+	}
+	
+	private PacienteUM findByPacienteUM(PacienteUM pacienteIT) {
+		PacienteUM obj = repository.findByPacienteUM(pacienteIT.getPaciente().getId());
 		
 		if(obj != null) {
 			return obj;
@@ -75,12 +114,24 @@ public class PacienteUMService {
 		}
 	
 	public void delete(Long id) throws ObjectNotFoundException {
-	
+		
+		findById(id);
+		PacienteUM obj = findById(id);
 		try {
 			
-			PacienteUM obj = findById(id);
-			TipoDeMovimentacao saida = new TipoDeMovimentacao(null,obj.getDataMovimentacao(),null,obj.getPaciente(),obj.getUnidadeMedica());
+			Movimentacao saida = new Movimentacao(null,obj.getDataMovimentacao(),null,obj.getPaciente(),obj.getUnidadeMedica(),null);
 			tipoDeMovimentacaoResource.createSaida(saida);
+			
+			
+			obj.getPaciente().setStatus("Sem quarto");
+			
+			
+			pacienteResource.updatePatch(obj.getPaciente().getId(),obj.getPaciente());
+			umResource.update(obj.getUnidadeMedica().getId(),obj.getUnidadeMedica());
+			
+			obj.getUnidadeMedica().setStatus("Disponivel");
+			umResource.update(obj.getUnidadeMedica().getId(),obj.getUnidadeMedica());
+			
 			repository.deleteById(id);
 			
 		} catch (DataIntegrityViolationException e) {

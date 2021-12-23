@@ -36,7 +36,6 @@ public class PacienteUM implements Serializable{
 	private Paciente paciente;
 	
 	
-	
 	//@ManyToOne
 	@OneToOne
 	@JoinColumn(name="UM_id")

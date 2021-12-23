@@ -64,9 +64,7 @@ public class DoencaService {
 	}
 
 	public List<Doenca> findByPaciente(Integer id_pac) throws ObjectNotFoundException {
-		//List<Doenca> listDoencaPc = repository.findByDoencaPaciente(id_pac);
 		pacienteService.findById(id_pac);
-		//List<Medico> listMedico = repository.findByNomeContaining(nome);
 		return repository.findByDoencaPaciente(id_pac);
 	
 	}

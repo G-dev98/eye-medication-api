@@ -17,56 +17,46 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.eye_medication.Service.UnidadeMedicaService;
-import com.eye_medication.domain.UnidadeMedica;
+import com.eye_medication.Service.MedicamentoService;
+import com.eye_medication.domain.Medicamento;
 
 import javassist.tools.rmi.ObjectNotFoundException;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping(value = "/unidadesMedicas")
-public class UnidadeMedicaResource {
+@RequestMapping(value = "/medicamentos")
+public class MedicamentoResource {
 
 	@Autowired
-	private UnidadeMedicaService service;
-
+	private MedicamentoService service;
+	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<UnidadeMedica> findById(@PathVariable Long id) throws ObjectNotFoundException {
-		UnidadeMedica obj = service.findById(id);
+	public ResponseEntity<Medicamento> findById(@PathVariable Long id) throws ObjectNotFoundException {
+		Medicamento obj = service.findById(id);
 		return ResponseEntity.ok(obj);
 	}
-
+	
 	@GetMapping
-	public ResponseEntity<List<UnidadeMedica>> findAll() {
-		List<UnidadeMedica> list = service.findAll();
+	public ResponseEntity<List<Medicamento>> findAll() {
+		List<Medicamento> list = service.findAll();
 
 		return ResponseEntity.ok().body(list);
 	}
-
+	
 	@PostMapping
-	public ResponseEntity<UnidadeMedica> create(@RequestBody UnidadeMedica obj) {
+	public ResponseEntity<Medicamento> create(@RequestBody Medicamento obj) {
 		obj = service.create(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
-
+	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<UnidadeMedica> update(@PathVariable Long id, @Valid @RequestBody UnidadeMedica objDto)
+	public ResponseEntity<Medicamento> update(@PathVariable Long id, @Valid @RequestBody Medicamento obj)
 			throws ObjectNotFoundException {
 
-		/*
-		 * Medico newObj = MedicoService.update(id, objDto); return
-		 * ResponseEntity.ok(new MedicoDTO(newObj));
-		 */
-		UnidadeMedica newObj = service.update(id, objDto);
+		Medicamento newObj = service.update(id, obj);
 		return ResponseEntity.ok().body(newObj);
 	}
 	
-	@GetMapping(value= "/disponivel")
-	public ResponseEntity<List<UnidadeMedica>> findByUmDisponivel() {
-		List<UnidadeMedica> list = service.findByUmDisponivel();
-
-		return ResponseEntity.ok().body(list);
-	}
 	
 }

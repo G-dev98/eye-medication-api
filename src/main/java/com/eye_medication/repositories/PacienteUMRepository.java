@@ -11,8 +11,11 @@ import com.eye_medication.domain.PacienteUM;
 @Repository
 public interface PacienteUMRepository extends  JpaRepository <PacienteUM, Long>  {
 
-	@Query("SELECT obj FROM PacienteUM obj WHERE obj.unidadeMedica.id = :id_UM")
+	@Query("SELECT obj  FROM PacienteUM obj WHERE obj.unidadeMedica.id = :id_UM")
 	PacienteUM findByDisponibilidade(@Param("id_UM")Long id_UM);
+
+	@Query("SELECT DISTINCT obj FROM PacienteUM obj WHERE obj.paciente.id = :id_Pac")
+	PacienteUM findByPacienteUM(@Param("id_Pac")Integer id);
 
 	
 

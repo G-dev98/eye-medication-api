@@ -1,7 +1,6 @@
 package com.eye_medication.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -22,17 +21,19 @@ public class UnidadeMedica implements Serializable {
 	private Long id;
 	private String tipo;
 	private Integer nQuarto;
-	//private String status;
+	private String status;
 	private Integer nCama;
 	
 	//private Paciente paciente;
 	
-	@OneToOne(mappedBy="unidadeMedica")
 	@JsonIgnore
+	@OneToOne(mappedBy="unidadeMedica")
+	//@JsonIgnore
 	private PacienteUM pUM ;
 
+	@JsonIgnore
 	@OneToMany(mappedBy="UM")
-	private List<TipoDeMovimentacao> movimentacaoUM;
+	private List<Movimentacao> movimentacaoUM;
 	
 	
 	public UnidadeMedica() {
@@ -75,18 +76,28 @@ public class UnidadeMedica implements Serializable {
 	
 
 
+	public String getStatus() {
+		return status;
+	}
+
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+
 	public Integer getnCama() {
 		return nCama;
 	}
 
 
 
-	public List<TipoDeMovimentacao> getMovimentacaoUM() {
+	public List<Movimentacao> getMovimentacaoUM() {
 		return movimentacaoUM;
 	}
 
 
-	public void setMovimentacaoUM(List<TipoDeMovimentacao> movimentacaoUM) {
+	public void setMovimentacaoUM(List<Movimentacao> movimentacaoUM) {
 		this.movimentacaoUM = movimentacaoUM;
 	}
 

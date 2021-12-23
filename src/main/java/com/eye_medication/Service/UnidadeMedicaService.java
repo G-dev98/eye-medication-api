@@ -36,13 +36,13 @@ public class UnidadeMedicaService {
 	
 
 	
-	public UnidadeMedica update(Long id, UnidadeMedica objDto) throws ObjectNotFoundException {
+	public UnidadeMedica update(Long id, UnidadeMedica obj) throws ObjectNotFoundException {
 		
-		UnidadeMedica obj = findById(id);
+		UnidadeMedica obj2 = findById(id);
 		
+		obj2.setStatus(obj.getStatus());
 		
-		
-		return repository.save(obj);
+		return repository.save(obj2);
 
 	}
 	
@@ -58,6 +58,8 @@ public class UnidadeMedicaService {
 	}
 	
 	
-	
+	public List<UnidadeMedica> findByUmDisponivel(){
+		return repository.findByUmDisponivel();
+	}
 	
 }

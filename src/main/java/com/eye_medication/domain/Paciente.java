@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,12 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.UniqueConstraint;
-
-import org.hibernate.validator.constraints.br.CPF;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -49,8 +47,14 @@ public class Paciente implements Serializable {
 	@OneToOne
 	private PacienteUM pUM ;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "paciente")
-	private List<TipoDeMovimentacao> entradaPacienteUM;
+	private List<Movimentacao> entradaPacienteUM = new ArrayList<>();
+	
+	@JsonIgnore
+	@OneToOne(cascade = {CascadeType.ALL})
+	@JoinColumn(name="prontuario_id")
+	private Prontuario prontuario;
 
 	public Paciente() {
 		super();
@@ -58,7 +62,7 @@ public class Paciente implements Serializable {
 	}
 
 	public Paciente(Integer id, String nome, String cpf, String telefone, String endereco, String dataNascimento,
-			String naturalidade, String nomeMae, String sexo, String status) {
+			String naturalidade, String nomeMae, String sexo) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -69,7 +73,6 @@ public class Paciente implements Serializable {
 		this.naturalidade = naturalidade;
 		this.nomeMae = nomeMae;
 		this.sexo = sexo;
-		this.status = status;
 
 	}
 	
@@ -83,11 +86,11 @@ public class Paciente implements Serializable {
 		this.pUM = pUM;
 	}*/
 
-	public List<TipoDeMovimentacao> getEntradaPacienteUM() {
+	public List<Movimentacao> getEntradaPacienteUM() {
 		return entradaPacienteUM;
 	}
 
-	public void setEntradaPacienteUM(List<TipoDeMovimentacao> entradaPacienteUM) {
+	public void setEntradaPacienteUM(List<Movimentacao> entradaPacienteUM) {
 		this.entradaPacienteUM = entradaPacienteUM;
 	}
 
@@ -187,6 +190,15 @@ public class Paciente implements Serializable {
 
 	public void setDoencas(List<Doenca> doencas) {
 		this.doencas = doencas;
+	}
+
+		
+	public Prontuario getProntuario() {
+		return prontuario;
+	}
+
+	public void setProntuario(Prontuario prontuario) {
+		this.prontuario = prontuario;
 	}
 
 	@Override

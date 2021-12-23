@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.eye_medication.Service.PacienteUMService;
-import com.eye_medication.domain.Paciente;
 import com.eye_medication.domain.PacienteUM;
 
 import javassist.tools.rmi.ObjectNotFoundException;
@@ -35,7 +34,7 @@ public class PacienteUMResource {
 	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<PacienteUM> findById(@PathVariable Long id) throws ObjectNotFoundException {
-		PacienteUM obj = service.findById(id);
+		PacienteUM obj = service.findById(id); 
 		return ResponseEntity.ok(obj);
 	}
 	
@@ -54,13 +53,13 @@ public class PacienteUMResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<PacienteUM> create(@RequestBody PacienteUM obj) {
+	public ResponseEntity<PacienteUM> create(@RequestBody PacienteUM obj) throws ObjectNotFoundException {
 		obj = service.create(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 	
-	@DeleteMapping//(value = "/{id}")
+	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Long id) throws ObjectNotFoundException {
 
 		service.delete(id);

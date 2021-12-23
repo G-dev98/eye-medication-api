@@ -4,13 +4,16 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.eye_medication.domain.Paciente;
+import com.eye_medication.domain.Prontuario;
 import com.eye_medication.repositories.PacienteRepository;
+import com.eye_medication.resources.ProntuarioResource;
 
 import javassist.tools.rmi.ObjectNotFoundException;
 
@@ -19,6 +22,10 @@ public class PacienteService {
 
 	@Autowired
 	private PacienteRepository repository;
+	
+	
+	@Autowired
+	private ProntuarioResource prontuarioResource;
 	
 	
 	public Paciente findById(Integer id) throws ObjectNotFoundException {
@@ -33,10 +40,13 @@ public class PacienteService {
 	
 	public Paciente create(Paciente obj) {
 		obj.setId(null);
+		
+		Prontuario prontuario = new Prontuario(null, null, obj);
+		prontuarioResource.create(prontuario);
+		obj.setStatus("Sem quarto");
+		obj.setProntuario(prontuario);
 		return repository.save(obj);
 	}
-	
-
 	
 	public Paciente update(Integer id, Paciente objDto) throws ObjectNotFoundException {
 		
@@ -49,7 +59,6 @@ public class PacienteService {
 		obj.setNaturalidade(objDto.getNaturalidade());
 		obj.setNomeMae(objDto.getNomeMae());
 		obj.setSexo(objDto.getSexo());
-		obj.setStatus(objDto.getStatus());
 		obj.setDoencas(objDto.getDoencas());
 		
 		return repository.save(obj);
@@ -76,6 +85,21 @@ public class PacienteService {
 	public void atribuirDoenca(Integer id, Integer id_doe) throws ObjectNotFoundException {
 			repository.atribuirDoenca(id,id_doe);
 		
+	}
+	
+	
+	public List<Paciente> findByStatus() {
+		
+		return repository.findByStatus();
+	}
+	
+
+	public Paciente updatePacth(Integer id, @Valid Paciente obj) throws ObjectNotFoundException {
+		Paciente obj2 = findById(id);
+		
+		obj2.setStatus(obj.getStatus());
+		
+		return repository.save(obj2);
 	}
 	
 

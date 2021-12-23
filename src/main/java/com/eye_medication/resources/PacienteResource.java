@@ -68,7 +68,7 @@ public class PacienteResource {
 	public ResponseEntity<Paciente> updatePatch(@PathVariable Integer id, @Valid @RequestBody Paciente objDto)
 			throws ObjectNotFoundException {
 
-		Paciente newObj = service.update(id, objDto);
+		Paciente newObj = service.updatePacth(id, objDto);
 		return ResponseEntity.ok().body(newObj);
 	}
 
@@ -89,6 +89,12 @@ public class PacienteResource {
 
 		return ResponseEntity.noContent().build();
 
+	}
+	
+	@GetMapping(value ="/Status" )
+	public ResponseEntity<List<Paciente>> findByStatus(){
+		List<Paciente> list = service.findByStatus();
+		return ResponseEntity.ok().body(list);
 	}
 
 }
